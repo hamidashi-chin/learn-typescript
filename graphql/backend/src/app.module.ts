@@ -10,9 +10,9 @@ import { TaskModule } from './task/task.module';
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      cors: {
-        origin: '*',
-      },
+      // cors: {
+      //   origin: '*',
+      // },
     }),
     TaskModule,
   ],
