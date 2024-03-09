@@ -29,8 +29,9 @@
 - Node.jsの特徴
   - ノンブロッキングI/O　？？
   - イベント駆動プログラミング　？？
-  - 非同期プログラミング　？？
-  これらを支えるがlibuv。。。わからん😭
+  - 非同期プログラミング
+  これらを支えるがlibuv。。。何言ってるかわからん😭
+  `@todo`後で注釈追記したい
 - C言語で作成されたライブラリである。
 
 ## node-core
@@ -44,3 +45,16 @@
       const numCPUs = os.cpus().length;
       console.log(numCPUs + ' core cpu.');
       ```
+
+## Node.jsのリリースサイクル
+
+- 毎年のように新しいバージョンがリリースされている。
+  <img src="https://www.publickey1.jp/2021/nodejs16gab.gif">
+  - 偶数バージョンはActiveLTSがある。
+  - 奇数バージョンはActiveLTSがない。
+    - 偶数バージョンがリリースされたのち、少しのメンテナンス期間を経てお役御免。
+  - CURRENT : 最初の約半年間
+  - Active LTS : アクティブな長期サポート期間
+  - Maintenance LTS : 保守サポート期間
+    - LTSはlong-term supportの略称
+  - ActiveまたはMaintenanceLTSの使用を推奨。
