@@ -8,9 +8,14 @@
         <h1>日本の季節</h1>
         <p>秋は行楽シーズンで、たくさんの人が観光にでかける。</p>
 
-        <form method="post" action="/autumn">
+        <form method="POST" action="/autumn">
             <input type="text" name="activity">
             <button type="submit">投稿</button>
+        </form>
+
+        <form method="PUT" action="/update">
+            <input type="text" name="updatedActivity">
+            <button type="submit">変更</button>
         </form>
     </body>
 </html>
