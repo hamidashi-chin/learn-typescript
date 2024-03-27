@@ -19,8 +19,13 @@ app.post("/autumn", function (req, res) {
   });
 });
 
-app.get("/update", function (req, res) {
-  console.log(activities[0].activity);
+app.post("/update", function (req, res) {
+  activities[0].activity = req.body.updatedActivity;
+  res.send(activities);
+});
+
+app.post("/delete", function (req, res) {
+  activities.splice(req.body.number, 1);
   res.send(activities);
 });
 
