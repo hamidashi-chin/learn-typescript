@@ -46,7 +46,26 @@ app.get("/", async(req, res) => {
 })
 
 // Read Single Blog
+app.get("/blog/:id", async(req, res) => {
+  console.log(req.params.id)
+  const singleBlog = await BlogModel.findById(req.params.id)
+  console.log("singleBlogの中身：", singleBlog)
+  res.send("個別の記事ページ")
+})
+
 // Update Blog
+app.get("/blog/update/:id", async(req, res) => {
+  BlogModel.updateOne({_id: req.params.id}, req.body)
+    .then((result) => {
+      console.log("データの書き込みが成功しました")
+      res.send("ブログデータの投稿が成功しました")
+    })
+    .catch((error) => {
+      console.log("データの書き込みが失敗しました")
+      res.send("ブログデータの投稿が失敗しました")
+    })
+})
+
 // Delete Blog
 
 // Connectiong to port
