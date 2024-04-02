@@ -3,6 +3,8 @@ const app = express()
 app.use(express.urlencoded({ extended: true }))
 const mongoose = require("mongoose")
 
+app.set("view engine", "ejs")
+
 mongoose.connect("mongodb+srv://tkfm:shoyushioniboshi@tkfm.cokifdf.mongodb.net/blogUserDatabase?retryWrites=true&w=majority&appName=tkfm")
   .then(() => {console.log("Success:ConnectedtoMongoDB")})
   .catch((error) => {console.error("Failure:UnconnectedtoMongoDB")})
@@ -42,7 +44,8 @@ app.post("/blog/create", (req, res) => {
 app.get("/", async(req, res) => {
   const allBlogs = await BlogModel.find()
   console.log("allBlogsの中身：", allBlogs)
-  res.send("全ブログデータを読み取りました。")
+  // res.send("全ブログデータを読み取りました。")
+  res.render("index", {allBlogs})
 })
 
 // Read Single Blog
@@ -50,7 +53,7 @@ app.get("/blog/:id", async(req, res) => {
   console.log(req.params.id)
   const singleBlog = await BlogModel.findById(req.params.id)
   console.log("singleBlogの中身：", singleBlog)
-  res.send("個別の記事ページ")
+  res.render("blogRead", {singleBlog})
 })
 
 // Update Blog

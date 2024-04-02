@@ -1,13 +1,13 @@
 # はじめてつくるバックエンドサーバー発展編（Node.js＆Express＆MongoDB）
 
+<img src="https://m.media-amazon.com/images/I/71utOctDt0L._SL1500_.jpg" wi>
+
 ## 技術めも
 
-### await
+### async / await
 
 - 処理が完了するのを待つ、という意味で`await`を置く
 - 単独で使えず、必ず`async`のとセットで使う必要がある
-
-### async
 
 ## ※ 注意 ※
 
