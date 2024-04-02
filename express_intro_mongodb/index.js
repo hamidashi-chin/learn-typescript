@@ -67,6 +67,17 @@ app.get("/blog/update/:id", async(req, res) => {
 })
 
 // Delete Blog
+app.get("/blog/delete/:id", async(req, res) => {
+  BlogModel.deleteOne({_id: req.params.id})
+    .then((result) => {
+      console.log("データの削除が成功しました")
+      res.send("ブログデータの削除が成功しました")
+    })
+    .catch((error) => {
+      console.log("データの削除が失敗しました")
+      res.send("ブログデータの削除が失敗しました")
+    })
+})
 
 // Connectiong to port
 app.listen(5051, () => {
