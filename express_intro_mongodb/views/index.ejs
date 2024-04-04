@@ -9,6 +9,7 @@
     <main>
         <div>
             <% allBlogs.forEach((blog) => { %>
+                <img src="/public/images/<%= blog.image %>" alt="blog-image">
                 <div>
                     <a href="/blog/<%= blog._id %>">
                         <div>

@@ -4,6 +4,7 @@ app.use(express.urlencoded({ extended: true }))
 const mongoose = require("mongoose")
 
 app.set("view engine", "ejs")
+app.use("/public", express.static("public"))
 
 mongoose.connect("mongodb+srv://tkfm:shoyushioniboshi@tkfm.cokifdf.mongodb.net/blogUserDatabase?retryWrites=true&w=majority&appName=tkfm")
   .then(() => {console.log("Success:ConnectedtoMongoDB")})
