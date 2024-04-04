@@ -19,7 +19,24 @@ const BlogSchema = new Schema({
   textBody: String,
 })
 
+const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+})
+
 const BlogModel = mongoose.model("Blog", BlogSchema)
+const UserModel = mongoose.model("User", UserSchema)
 
 // BLOG function
 
@@ -45,7 +62,6 @@ app.post("/blog/create", (req, res) => {
 app.get("/", async(req, res) => {
   const allBlogs = await BlogModel.find()
   console.log("allBlogsの中身：", allBlogs)
-  // res.send("全ブログデータを読み取りました。")
   res.render("index", {allBlogs})
 })
 
@@ -69,6 +85,42 @@ app.get("/blog/delete/:id", async(req, res) => {
   const singleBlog = await BlogModel.findById(req.params.id)
   console.log("singleBlogの中身：", singleBlog)
   res.render("blogDelete", {singleBlog})
+})
+
+// User function
+// Create user
+app.get("/user/create", (req, res) => {
+  res.render("userCreate")
+})
+
+app.post("/user/create", (req, res) => {
+  UserModel.create(req.body)
+    .then((result) => {
+      console.log("データの書き込みが成功しました")
+      res.send("ブログデータの投稿が成功しました")
+    })
+    .catch((error) => {
+      console.log("データの書き込みが失敗しました")
+      res.send("ブログデータの投稿が失敗しました")
+    })
+})
+
+// user Login
+app.get("/user/login", (req, res) => {
+  res.render("login")
+})
+
+app.post("/user/login", (req, res) => {
+  UserModel.findOne({email: req.body.email})
+    .then((result) => {
+      result
+        ? res.send("ログイン成功です")
+        : res.send("ユーザーが存在していません")
+      // console.log(result)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 
 // Connection to port
