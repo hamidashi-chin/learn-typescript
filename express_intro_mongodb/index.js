@@ -2,9 +2,18 @@ const express = require("express")
 const app = express()
 app.use(express.urlencoded({ extended: true }))
 const mongoose = require("mongoose")
+const session = require("express-session")
 
 app.set("view engine", "ejs")
 app.use("/public", express.static("public"))
+
+// Session
+app.use(session({
+  secret: "secretKey",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 300000 },
+}))
 
 mongoose.connect("mongodb+srv://tkfm:shoyushioniboshi@tkfm.cokifdf.mongodb.net/blogUserDatabase?retryWrites=true&w=majority&appName=tkfm")
   .then(() => {console.log("Success:ConnectedtoMongoDB")})
@@ -42,7 +51,10 @@ const UserModel = mongoose.model("User", UserSchema)
 
 // Create blog
 app.get("/blog/create", (req, res) => {
-  res.render("blogCreate")
+  // console.log(req.session.userId)
+  req.session.userId
+    ? res.render("blogCreate")
+    : res.redirect("/user/login")
 })
 
 app.post("/blog/create", (req, res) => {
@@ -61,7 +73,7 @@ app.post("/blog/create", (req, res) => {
 // Read All Blogs
 app.get("/", async(req, res) => {
   const allBlogs = await BlogModel.find()
-  console.log("allBlogsの中身：", allBlogs)
+  console.log("reqの中身：", req)
   res.render("index", {allBlogs})
 })
 
@@ -113,10 +125,16 @@ app.get("/user/login", (req, res) => {
 app.post("/user/login", (req, res) => {
   UserModel.findOne({email: req.body.email})
     .then((result) => {
-      result
-        ? res.send("ログイン成功です")
-        : res.send("ユーザーが存在していません")
-      // console.log(result)
+      if (result) {
+        if (req.body.password === result.password) {
+          req.session.userId = result._id
+          res.send("ログインが成功です")
+        } else {
+          res.send("パスワードが間違っています")
+        }
+      } else {
+        res.send("ユーザーが存在していません")
+      }
     })
     .catch((error) => {
       console.log(error)
