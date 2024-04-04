@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="jp">
 <head>
-    <meta charset="UTF-8">
     <title>Indexのページ</title>
+    <%- include("./head"); %>
 </head>
 <body>
-    <header>Header</header>
+    <%- include("./header"); %>
     <main>
         <div>
             <% allBlogs.forEach((blog) => { %>
@@ -20,6 +20,6 @@
             <% }) %>
         </div>
     </main>
-    <footer>Footer</footer>
+    <%- include("./footer"); %>
 </body>
 </html>

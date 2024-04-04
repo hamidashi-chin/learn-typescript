@@ -1,6 +1,6 @@
 # はじめてつくるバックエンドサーバー発展編（Node.js＆Express＆MongoDB）
 
-<img src="https://m.media-amazon.com/images/I/71utOctDt0L._SL1500_.jpg" wi>
+<img src="https://m.media-amazon.com/images/I/71utOctDt0L._SL1500_.jpg" width="300px">
 
 ## 技術めも
 

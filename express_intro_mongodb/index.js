@@ -24,7 +24,7 @@ const BlogModel = mongoose.model("Blog", BlogSchema)
 
 // Create blog
 app.get("/blog/create", (req, res) => {
-  res.sendFile(__dirname + "/views/blogCreate.html")
+  res.render("blogCreate")
 })
 
 app.post("/blog/create", (req, res) => {
@@ -58,31 +58,19 @@ app.get("/blog/:id", async(req, res) => {
 
 // Update Blog
 app.get("/blog/update/:id", async(req, res) => {
-  BlogModel.updateOne({_id: req.params.id}, req.body)
-    .then((result) => {
-      console.log("データの書き込みが成功しました")
-      res.send("ブログデータの投稿が成功しました")
-    })
-    .catch((error) => {
-      console.log("データの書き込みが失敗しました")
-      res.send("ブログデータの投稿が失敗しました")
-    })
+  const singleBlog = await BlogModel.findById(req.params.id)
+  console.log("singleBlogの中身：", singleBlog)
+  res.render("blogUpdate", {singleBlog})
 })
 
 // Delete Blog
 app.get("/blog/delete/:id", async(req, res) => {
-  BlogModel.deleteOne({_id: req.params.id})
-    .then((result) => {
-      console.log("データの削除が成功しました")
-      res.send("ブログデータの削除が成功しました")
-    })
-    .catch((error) => {
-      console.log("データの削除が失敗しました")
-      res.send("ブログデータの削除が失敗しました")
-    })
+  const singleBlog = await BlogModel.findById(req.params.id)
+  console.log("singleBlogの中身：", singleBlog)
+  res.render("blogDelete", {singleBlog})
 })
 
-// Connectiong to port
+// Connection to port
 app.listen(5051, () => {
   console.log("Listening on localhost port 5051")
 })
