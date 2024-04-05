@@ -16,8 +16,12 @@ app.use(session({
 }))
 
 mongoose.connect("mongodb+srv://tkfm:shoyushioniboshi@tkfm.cokifdf.mongodb.net/blogUserDatabase?retryWrites=true&w=majority&appName=tkfm")
-  .then(() => {console.log("Success:ConnectedtoMongoDB")})
-  .catch((error) => {console.error("Failure:UnconnectedtoMongoDB")})
+  .then(() => {
+    console.log("Success:ConnectedtoMongoDB")
+  })
+  .catch((error) => {
+    console.error("Failure:UnconnectedtoMongoDB")
+  })
 
 const Schema = mongoose.Schema
 
@@ -61,42 +65,59 @@ app.post("/blog/create", (req, res) => {
   console.log("reqの中身", req.body)
   BlogModel.create(req.body)
     .then((result) => {
-      console.log("データの書き込みが成功しました")
-      res.send("ブログデータの投稿が成功しました")
+      res.redirect("/")
     })
     .catch((error) => {
-      console.log("データの書き込みが失敗しました")
-      res.send("ブログデータの投稿が失敗しました")
+      res.render("error", {message: "/blog/createのエラー"})
     })
 })
 
 // Read All Blogs
 app.get("/", async(req, res) => {
   const allBlogs = await BlogModel.find()
-  console.log("reqの中身：", req)
-  res.render("index", {allBlogs})
+  res.render("index", {allBlogs: allBlogs, session: req.session.userId})
 })
 
 // Read Single Blog
 app.get("/blog/:id", async(req, res) => {
   console.log(req.params.id)
   const singleBlog = await BlogModel.findById(req.params.id)
-  console.log("singleBlogの中身：", singleBlog)
-  res.render("blogRead", {singleBlog})
+  // console.log("singleBlogの中身：", singleBlog)
+  res.render("blogRead", {singleBlog: singleBlog, session: req.session.userId})
 })
 
 // Update Blog
 app.get("/blog/update/:id", async(req, res) => {
   const singleBlog = await BlogModel.findById(req.params.id)
-  console.log("singleBlogの中身：", singleBlog)
+  // console.log("singleBlogの中身：", singleBlog)
   res.render("blogUpdate", {singleBlog})
+})
+
+app.post("/blog/update/:id", async(req, res) => {
+  BlogModel.updateOne({_id: req.params.id}, req.body)
+    .then((result) => {
+      res.redirect("/")
+    })
+    .catch((error) => {
+      res.render("error", {message: "/blog/updateのエラー"})
+    })
 })
 
 // Delete Blog
 app.get("/blog/delete/:id", async(req, res) => {
   const singleBlog = await BlogModel.findById(req.params.id)
-  console.log("singleBlogの中身：", singleBlog)
+  // console.log("singleBlogの中身：", singleBlog)
   res.render("blogDelete", {singleBlog})
+})
+
+app.post("/blog/delete/:id", async(req, res) => {
+  BlogModel.deleteOne({_id: req.params.id})
+    .then((result) => {
+      res.redirect("/")
+    })
+    .catch((error) => {
+      res.render("error", {message: "/blog/deleteのエラー"})
+    })
 })
 
 // User function
@@ -108,12 +129,10 @@ app.get("/user/create", (req, res) => {
 app.post("/user/create", (req, res) => {
   UserModel.create(req.body)
     .then((result) => {
-      console.log("データの書き込みが成功しました")
-      res.send("ブログデータの投稿が成功しました")
+      res.redirect("/user/login")
     })
     .catch((error) => {
-      console.log("データの書き込みが失敗しました")
-      res.send("ブログデータの投稿が失敗しました")
+      res.render("error", {message: "/user/createのエラー"})
     })
 })
 
@@ -128,12 +147,12 @@ app.post("/user/login", (req, res) => {
       if (result) {
         if (req.body.password === result.password) {
           req.session.userId = result._id
-          res.send("ログインが成功です")
+          res.redirect("/")
         } else {
-          res.send("パスワードが間違っています")
+          res.render("error", {message: "/user/loginのエラー: パスワードが間違っています"})
         }
       } else {
-        res.send("ユーザーが存在していません")
+        res.render("error", {message: "/user/loginのエラー: ユーザーが存在していません"})
       }
     })
     .catch((error) => {
