@@ -9,27 +9,27 @@
     <main>
         <div class="grid-container">
             <% allBlogs.forEach((blog) => { %>
-                <img src="/public/images/<%= blog.image %>" alt="blog-image">
                 <div class="card">
                     <a href="/blog/<%= blog._id %>">
+                        <img src="/public/images/<%= blog.image %>" alt="blog-image">
                         <div class="texts-area">
                             <h1><%= blog.title %></h1>
                             <p><%= blog.summary %></p>
                         </div>
                     </a>
                 </div>
-                <div class="bottom">
-                    <% if(session !== undefined) { %>
-                        <a href="/blog/create" class="create-button">記事を書く</a>
-                    <% } %>
-                    <% if(session === undefined) { %>
-                        <a href="/user/login" class="login-button">ログイン</a>
-                    <% } %>
-                    <% if(session === undefined) { %>
-                        <a href="/user/create" class="user-create-button">登録する</a>
-                    <% } %>
-                </div>
             <% }) %>
+        </div>
+        <div class="bottom">
+            <% if(session !== undefined) { %>
+                <a href="/blog/create" class="create-button">記事を書く</a>
+            <% } %>
+            <% if(session === undefined) { %>
+                <a href="/user/login" class="login-button">ログイン</a>
+            <% } %>
+            <% if(session === undefined) { %>
+                <a href="/user/create" class="user-create-button">登録する</a>
+            <% } %>
         </div>
     </main>
     <%- include("./footer"); %>
