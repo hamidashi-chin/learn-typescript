@@ -161,6 +161,7 @@ app.post("/user/login", (req, res) => {
 })
 
 // Connection to port
-app.listen(5051, () => {
-  console.log("Listening on localhost port 5051")
+const port = process.env.PORT || 5051
+app.listen(port, () => {
+  console.log(`Listening on localhost port ${port}`)
 })
