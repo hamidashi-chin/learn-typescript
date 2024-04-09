@@ -11,7 +11,7 @@
             <% allBlogs.forEach((blog) => { %>
                 <div class="card">
                     <a href="/blog/<%= blog._id %>">
-                        <img src="/public/images/<%= blog.image %>" alt="blog-image">
+                        <img src="<%= blog.image %>" alt="blog-image">
                         <div class="texts-area">
                             <h1><%= blog.title %></h1>
                             <p><%= blog.summary %></p>
