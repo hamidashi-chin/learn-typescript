@@ -75,3 +75,28 @@ Nest is [MIT licensed](LICENSE).
 ## NestJSの基本アーキテクチャ
 
 ![](./for_readme/nestjs_architecture.png)
+
+## Controllerの定義
+
+Controllerがルーティングの機能を担う
+
+1. classに@Controller()デコレーターを付ける
+
+```typescript
+import { Controller } from '@nestjs/common';
+
+@Controller('User')
+export class UsersController {}
+```
+
+2. メソッド(ハンドラー)にHTTPメソッドデコレーターを付ける
+
+```typescript
+@Controller('users)
+export class UsersController {
+  @Post()
+  create() {
+    // Create User
+  }
+}
+```
