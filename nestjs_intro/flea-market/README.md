@@ -76,7 +76,7 @@ Nest is [MIT licensed](LICENSE).
 
 ![](./for_readme/nestjs_architecture.png)
 
-## Controllerの定義
+## Controllerについて
 
 Controllerがルーティングの機能を担う
 
@@ -100,3 +100,67 @@ export class UsersController {
   }
 }
 ```
+
+## Serviceについて
+
+- ビジネスロジックを定義する
+- Controllerから呼び出すことで、ユースケースを実現する
+- Controllerにビジネスロジックを書いてもプログラムは動作するが、Controllerの責務はルーティングなので。
+  - 責務毎に分割することで、保守性・拡張性等上がり良い設計となる
+- 定義
+  1. classに`@Injecable()`でデコレーターを付ける ※`@Service()`ではない
+
+  ```typescript
+  Import { Injectable } from '@nestjs/common';
+
+  @Injectable()
+  export class UserService {}
+  ```
+
+  2. ビジネスロジックを実現するメソッドを作成する
+
+   ```typescript
+  @Injectable()
+    export class UserService {
+      find(userName: string) {
+        // Find user
+      }
+    }
+   ```
+
+  3. ModuleのprovidersにServiceを登録する
+
+  ```typescript
+  @Module({
+    controllers: [UserController],
+    providers: [UserService],
+  })
+  export class UsersModule {}
+  ```
+
+  4. ControllerのconstructorでServiceを引数にとる
+
+  ```typescript
+  @Controller('users')
+  export class UsersController {
+    constructor(private readonly UserService: UserService) {}
+
+    @Get(':username')
+    find(@Param('username') userName: string) {
+      this.userService.find(userName);
+    }
+  }
+  ```
+- Nest Cliで作成する
+
+```bash
+nest g service items --no-spec # --no-specオプション付けると関連するスクリプト(テストとか)が生成されない
+```
+
+## Dependency Injection (DI)
+
+- 依存関係のあるオブジェクトを外部から渡す
+- 依存元のプログラムを書き換えることなく、依存先を変更できる
+  - 主な用途
+    - 本番用とテスト用でインスタンスの切り替え
+    - ログの出力先の切り替え
