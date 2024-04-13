@@ -216,4 +216,46 @@ nest g service items --no-spec # --no-specオプション付けると関連す�
       }
       bootstrap();
       ```
+  - class-validator
+    - 下記GithubのREADMEで用意されているデコレーターを確認できる
+      - https://github.com/typestack/class-validator
 
+## レクチャーでインストールしているライブラリ
+
+### UUID
+
+- セクション3: バリデーションと例外処理
+  - 27 バリデーションの実装
+
+```bash
+npm install --save uuid
+```
+
+### class-validator (併せてclass-transformerも)
+
+- セクション3: バリデーションと例外処理
+  - 28 Class Validator
+
+```bash
+npm install --save class-validator class-transformer
+```
+
+- class-transformerについて
+  - class-transformer は TypeScript で使われるライブラリで、その主な機能はプレーンなJavaScriptオブジェクト（POJO）をクラスのインスタンスに変換すること、またその逆の変換を行うことです。これにより、TypeScript でクラスベースのオブジェクト指向プログラミングを容易に実現でき、データの型安全性を保ちながら操作できるようになります。
+  - class-transformer の主な特徴
+    - 型安全な変換:
+      - プレーンなオブジェクトをクラスのインスタンスに安全に変換することができ、クラスのメソッドや型定義がそのまま利用可能になります。これにより、オブジェクトのデータ構造とビジネスロジックが結合され、コードの整理と再利用が向上します。
+    - アノテーションによる変換:
+      - デコレータを使用して、どのプロパティがどのように変換されるかを指定できます。例えば、@Expose()、@Type() などのデコレータを使って、シリアライズ時のプロパティの取り扱いを制御できます。
+    - カスタム変換ロジック:
+      - カスタム変換関数を定義して、特定のプロパティに対する変換処理をカスタマイズできます。これにより、特定のデータ形式への変換や、データの検証・洗浄を行うことができます。
+  - このライブラリは、特にWebアプリケーションでのデータ交換（例えば、クライアントから送信されたJSONデータをサーバー側のモデルに変換する場合など）で非常に便利です。class-transformer を使用することで、データを受け取った際にそれを直接クラスのインスタンスとして操作できるため、コードの可読性と保守性が向上します。
+
+## 例外処理
+
+- https://docs.nestjs.com/exception-filters
+- よくつかう例外処理
+  - BadRequestException
+  - UnauthorizedException
+  - NotFoundException
+  - ConflictException
