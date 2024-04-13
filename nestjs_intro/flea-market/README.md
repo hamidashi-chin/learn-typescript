@@ -175,3 +175,45 @@ nest g service items --no-spec # --no-specオプション付けると関連す�
   - やりとりするデータをDTOの型に制限することができるので、誤ったデータが扱われるリスクが減る
 - NestJSのバリデーション機能が使える
   - 型チェックだけではなく複雑なバリデーションも可能
+
+## NestJSでバリデーションを行う方法
+- Pipeという機能を使う
+  - ハンドラーがリクエストを受け取る前にリクエストに対して処理を行う
+  - データの変換とバリデーションが可能
+  - 処理を行った後のデータをハンドラーに渡す
+  - Pipeの処理中に例外を返すことも可能
+  - NestJSの組み込みPipe
+    - ValidationPipe   : 入力のバリデーション
+    - ParseIntPipe     : 入力を整数型に変換
+    - ParseBoolPipe    : 入力をBoolean型に変換
+    - ParseUUIDPipe    : 入力をUUID型に変換
+    - DefaultValuePipe : 入力がnull、undefinedの場合にデフォルト値を与える
+  - Pipeの適用方法
+    1. ハンドラへの適用
+      ```typescript
+      @Post()
+      @UsePipes(ParseIntPipe)
+      create(@Body('id') id: number) {
+        // ...
+      }
+      ```
+    2. パラメータごとへの適用
+      ```typescript
+      @Post()
+      create(
+        @Body('id', ParseIntPipe) id: number,
+        @Body('isActive', ParseBoolPipe) isActive: boolean,
+      ) {
+        // ...
+      }
+      ```
+    3. グローバルへの適用
+      ```typescript
+      async funtion bootstrap() {
+        const app = await NestFactory create(AppModule);
+        app.useGlobalPipes(new ValidationPipe()); // ←これ
+        await app listen(3000);
+      }
+      bootstrap();
+      ```
+
