@@ -220,6 +220,35 @@ nest g service items --no-spec # --no-specオプション付けると関連す�
     - 下記GithubのREADMEで用意されているデコレーターを確認できる
       - https://github.com/typestack/class-validator
 
+## ORMについて
+
+- Entity
+  - RDBのテーブルと対応するオブジェクト
+  - @Entityでデコレーターを付けたクラスとして定義する
+  - @PrimaryGeneratedColumnデコレーターや@ColumnデコレーターがついたプロパティがRDBのColumnとマッピングされる
+    ```typescript
+    @Entity()
+    export class Item {
+      @PrimaryGeneratedColumn('uuid')
+      id: string;
+
+      @Column()
+      name: string;
+    }
+    ```
+- Repository
+  - Entityを管理するためのオブジェクト
+  - EntityとRepositoryが1対1となり、データベース操作を抽象化する
+  - クラスに@EntityRepository()デコレーターをつけて、Repositoryを継承する
+    ```typescript
+    @EntityRepository(Item)
+    export class ItemsRepository extends Repository<Item> {
+      findById(id: string) {
+        return this.findById(id);
+      }
+    }
+    ```
+
 ## レクチャーでインストールしているライブラリ
 
 ### UUID
@@ -250,6 +279,12 @@ npm install --save class-validator class-transformer
     - カスタム変換ロジック:
       - カスタム変換関数を定義して、特定のプロパティに対する変換処理をカスタマイズできます。これにより、特定のデータ形式への変換や、データの検証・洗浄を行うことができます。
   - このライブラリは、特にWebアプリケーションでのデータ交換（例えば、クライアントから送信されたJSONデータをサーバー側のモデルに変換する場合など）で非常に便利です。class-transformer を使用することで、データを受け取った際にそれを直接クラスのインスタンスとして操作できるため、コードの可読性と保守性が向上します。
+
+### TypeORM
+- セクション35: データベースとの接続設定
+```bash
+npm install --save typeorm @nestjs/typeorm pg
+```
 
 ## 例外処理
 
