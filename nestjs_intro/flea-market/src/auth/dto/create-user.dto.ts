@@ -3,7 +3,7 @@ import {
   IsNotEmpty,
   IsString,
   MaxLength,
-  MinLength
+  MinLength,
 } from "class-validator";
 import { UserStatus } from "../user-status.enum";
 
