@@ -112,7 +112,7 @@ export class UsersController {
 
   ```typescript
   Import { Injectable } from '@nestjs/common';
-
+  
   @Injectable()
   export class UserService {}
   ```
@@ -144,7 +144,7 @@ export class UsersController {
   @Controller('users')
   export class UsersController {
     constructor(private readonly UserService: UserService) {}
-
+  
     @Get(':username')
     find(@Param('username') userName: string) {
       this.userService.find(userName);
@@ -231,7 +231,7 @@ nest g service items --no-spec # --no-specオプション付けると関連す�
     export class Item {
       @PrimaryGeneratedColumn('uuid')
       id: string;
-
+    
       @Column()
       name: string;
     }
@@ -248,6 +248,25 @@ nest g service items --no-spec # --no-specオプション付けると関連す�
       }
     }
     ```
+
+## 認証と認可
+
+- 認証（Authentication）
+  - 通信の相手が誰（何）であるかを確認すること
+  - ユーザー作成機能・ログイン機能を実装
+
+- 認可（Authorization）
+  - とある条件に対して、リソースのアクセス権限を与えること
+  - ロールによる認可処理を実装
+  - キーワード：Guards カスタムデコレーター
+
+- NestJSでAuth処理作成
+
+  ```bash
+  npx nest g module auth
+  ```
+
+  - 上記コマンド実行するとauthディレクトリが作成される
 
 ## レクチャーでインストールしているライブラリ
 
