@@ -317,6 +317,24 @@ npm install --save class-validator class-transformer
       - カスタム変換関数を定義して、特定のプロパティに対する変換処理をカスタマイズできます。これにより、特定のデータ形式への変換や、データの検証・洗浄を行うことができます。
   - このライブラリは、特にWebアプリケーションでのデータ交換（例えば、クライアントから送信されたJSONデータをサーバー側のモデルに変換する場合など）で非常に便利です。class-transformer を使用することで、データを受け取った際にそれを直接クラスのインスタンスとして操作できるため、コードの可読性と保守性が向上します。
 
+### jwt, passport
+- セクション49: JWTモジュールの設定
+
+```bash
+npm install --save @nestjs/jwt @nestjs/passport passport passport-jwt
+```
+
+- passportについて
+  - node.jsの認証機能を提供するライブラリ
+- passport-jwtについて
+  - passportの認証機能にてjwtを使用するために必要なライブラリ
+
+```bash
+npm install --save-dev @types/passport-jwt
+```
+
+- @types/passport-jwtは型定義
+
 ### TypeORM
 - セクション35: データベースとの接続設定
 ```bash
