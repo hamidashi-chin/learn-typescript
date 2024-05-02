@@ -57,3 +57,20 @@ let value: StringOrNumber;
 value = "hello"; // string型が代入可能
 value = 123; // number型も代入可能
 ```
+
+## 構造的部分型
+
+- TypeScriptは構造的部分型(※)を採用している。
+- 変数の代入可否を、構造が互換しているかに着目して判定する。
+
+```typescript
+type Summary = { name: string };
+type Detail = { name: string; age: number };
+ 
+const johnDetail: Detail = { name: "John", age: 28 };
+const summary: Summary = johnDetail; // 代入できる。構造的部分型として互換があるため
+ 
+const johnSummary: Summary = { name: "John" };
+const detail: Detail = johnSummary; // 代入できない。構造的部分型として互換がない（ageを含まないため）
+// > Property 'age' is missing in type 'Summary' but required in type 'Detail'.
+```
