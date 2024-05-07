@@ -2,9 +2,12 @@ import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Parse
 import { ItemsService } from './items.service';
 import { Item } from '../entities/item.entity';
 import { CreateItemDto } from './dto/create-item.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { GetUser } from 'src/auth/decorator/get-user.decorator';
-import { User } from 'src/entities/user.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { GetUser } from '../auth/decorator/get-user.decorator';
+import { Role } from '../auth/decorator/role.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { User } from '../entities/user.entity';
+import { UserStatus } from '../auth/user-status.enum';
 
 @Controller('items')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -22,7 +25,8 @@ export class ItemsController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @Role(UserStatus.PREMIUM)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async create(
     @Body() createItemDto: CreateItemDto,
     @GetUser() user: User,
