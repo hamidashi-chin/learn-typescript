@@ -18,3 +18,4 @@
     `dsznajder.es7-react-js-snippets`
     Reactのスニペット(ショートカット)を使えるようにする
 
+
